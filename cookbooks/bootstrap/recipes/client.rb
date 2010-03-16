@@ -54,9 +54,6 @@ when "init"
       source "redhat-chef-client.erb"
       mode "755"      
     end
-    service "chef-client" do
-      action [ :enable, :start ]
-    end
   end
 
 end
@@ -84,4 +81,8 @@ template "/etc/chef/client.rb" do
     :client_log => client_log,
     :show_time  => show_time
   )
+end
+
+service "chef-client" do
+  action [ :enable, :start ]
 end
