@@ -51,21 +51,14 @@ when "init"
   case node[:bootstrap][:chef][:init_platform]
   when "redhat"
     template "/etc/init.d/chef-client"
-      
+      source "redhat-init.d.erb"
+      mode "755"      
+    end
+    service "chef-client" do
+      action [ :enable, :start ]
     end
   end
 
-  Chef::Log.info("You specified service style 'init'.")
-  Chef::Log.info("'init' scripts available in #{node[:languages][:ruby][:gems_dir]}/gems/chef-#{node[:bootstrap][:chef][:client_version]}/distro")
-when "bsd"
-  client_log = node[:bootstrap][:chef][:client_log]
-  show_time  = "false"
-  Chef::Log.info("You specified service style 'bsd'. You will need to set up your rc.local file.")
-  Chef::Log.info("Hint: chef-client -i #{node[:bootstrap][:chef][:client_interval]} -s #{node[:bootstrap][:chef][:client_splay]}")
-else
-  client_log = node[:bootstrap][:chef][:client_log]
-  show_time  = "false"
-  Chef::Log.info("Could not determine service init style, manual intervention required to start up the client service.")
 end
 
 chef_dirs = [
