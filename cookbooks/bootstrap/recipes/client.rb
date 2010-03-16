@@ -50,8 +50,8 @@ when "init"
 
   case node[:bootstrap][:chef][:init_platform]
   when "redhat"
-    template "/etc/init.d/chef-client"
-      source "redhat-init.d.erb"
+    template "/etc/init.d/chef-client" do
+      source "redhat-chef-client.erb"
       mode "755"      
     end
     service "chef-client" do
